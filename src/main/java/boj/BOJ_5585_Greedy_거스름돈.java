@@ -5,36 +5,20 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class BOJ_5585_Greedy_거스름돈 {
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int i = sc.nextInt();
-        int change = 1000 - i;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        int residue = change;
+        int price = scanner.nextInt();
+        int change = 1000 - price;
+
+        int[] coins = {500, 100, 50, 10, 5, 1};
         int count = 0;
 
-        while(residue != 0) {
-            count += residue / 500;
-            residue %= 500;
-
-            count += residue/ 100;
-            residue %= 100;
-
-            count += residue / 50;
-            residue %= 50;
-
-            count += residue / 10;
-            residue %= 10;
-
-            count += residue / 5;
-            residue %= 5;
-
-            count += residue / 1;
-            residue %= 1;
+        for (int coin : coins) {
+            count =+ change / coin;
+            change %= coin;
         }
 
         System.out.println(count);
-
     }
-
 }
