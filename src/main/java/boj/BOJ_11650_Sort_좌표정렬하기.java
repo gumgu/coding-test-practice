@@ -1,50 +1,34 @@
 package boj;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BOJ_11650_Sort_좌표정렬하기 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int N = Integer.parseInt(br.readLine());
 
-        List<Point> numbers = new ArrayList<Point>();
-        for (int i = 0; i < N; i++) {
-            // ** 문제 시작
-            String number = br.readLine();
-            String[] split = number.split(" ");
+        // 2차원 배열로 처리 (객체 생성 오버헤드 감소)
+        int[][] points = new int[N][2];
 
-            // 분할한 문자로부터 Point 생성
-            Point point = new Point(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-            numbers.add(point);
+        for(int i=0; i<N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            points[i][0] = Integer.parseInt(st.nextToken());
+            points[i][1] = Integer.parseInt(st.nextToken());
         }
 
-        // 최종 조합된 숫자 데이터 정렬
-        Collections.sort(numbers);
+        // 람다식을 활용한 정렬 (Comparator)
+        Arrays.sort(points, (p1, p2) -> {
+            if (p1[0] == p2[0]) {
+                return p1[1] - p2[1]; // x가 같으면 y비교
+            }
+            return p1[0] - p2[0]; // x비교
+        });
 
-        for (Point point : numbers){
-            System.out.println(point.x + " " + point.y);
+        StringBuilder sb = new StringBuilder();
+        for(int[] point : points) {
+            sb.append(point[0]).append(" ").append(point[1]).append('\n');
         }
-    }
-}
-
-class Point implements Comparable<Point> {
-    int x;
-    int y;
-
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public int compareTo(Point point) {
-        if (this.x == point.x) {
-            return this.y > point.y ? 1 : (this.y == point.y ? 0 : -1);
-        }
-        return this.x > point.x ? 1 : (this.x == point.x ? 0 : -1);
+        System.out.print(sb);
     }
 }
