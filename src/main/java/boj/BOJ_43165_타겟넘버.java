@@ -1,29 +1,19 @@
 package boj;
 
 public class BOJ_43165_타겟넘버 {
-    int count = 0;
-    int[] numbers;
-    int target;
-
     public int solution(int[] numbers, int target) {
-        this.numbers = numbers;
-        this.target = target;
-
-        dfs(0, 0);
-
-        return count;
+        return dfs(numbers, target, 0, 0);
     }
 
-    public void dfs(int index, int sum) {
-        // 탈출 조건
+    // void가 아닌 int를 반환하여 호출한 곳으로 결과를 전달
+    public int dfs(int[] numbers, int target, int index, int sum) {
+        // 1. 종료 조건
         if (index == numbers.length) {
-            if (sum == target) {
-                count++;
-            }
-            return;
+            return sum == target ? 1 : 0;
         }
 
-        dfs(index + 1, sum + numbers[index]);
-        dfs(index + 1, sum - numbers[index]);
+        // 2. 수행 동작 (자식 노드들의 결과를 더해서 반환)
+        return dfs(numbers, target, index + 1, sum + numbers[index])
+                + dfs(numbers, target, index + 1, sum - numbers[index]);
     }
 }
