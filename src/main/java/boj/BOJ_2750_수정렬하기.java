@@ -6,26 +6,33 @@ import java.lang.*;
 
 public class BOJ_2750_수정렬하기 {
     public static void main (String[] args) throws IOException {
-        // 1. 입력 가속: BufferedReader 사용
+        // 1. 빠른 입력 (BufferedReader)
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        // 2. 출력 가속: 매번 출력하지 않고 StringBuilder에 모았다가 한번에 출력
+        // 2. 빠른 출력 (StringBuilder)
         StringBuilder sb = new StringBuilder();
 
-        // 첫 줄에 데이터 개수 N이 들어온다고 가정
+        // N 입력 받기
         int n = Integer.parseInt(br.readLine());
 
-        List<Integer> intList = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int value = Integer.parseInt(br.readLine());
-            intList.add(value);
-        }
-        Collections.sort(intList);
+        // [최적화 포인트 1] ArrayList<Integer> 대신 int[] 사용
+        // - 이유: Integer 객체 생성 오버헤드 제거, 메모리 사용량 감소, 캐시 적중률(Locality) 향상
+        int[] arr = new int[n];
 
         for (int i = 0; i < n; i++) {
-            sb.append(intList.get(i)).append('\n');
+            arr[i] = Integer.parseInt(br.readLine());
+        }
+
+        // [최적화 포인트 2] Arrays.sort() 사용
+        // - Primitive 타입 배열 (int[]) 정렬 시 Dual-Pivot Quicksort 사용
+        // - 평균 O(N log N)으로 매우 빠름
+        Arrays.sort(arr);
+
+        for (int i = 0; i <n; i++) {
+            sb.append(arr[i]).append('\n');
         }
 
         System.out.println(sb);
+        br.close();
     }
 }
